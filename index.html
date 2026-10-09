@@ -3,21 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>TapTalk Direct — Приватные диалоги</title>
+  <title>TapTalk Direct</title>
   
   <meta property="og:type" content="website">
-  <meta property="og:title" content="TapTalk 💬 Приватные диалоги онлайн">
-  <meta property="og:description" content="Тысячи девушек рядом прямо сейчас. Вход без скачивания приложений.">
+  <meta property="og:title" content="TapTalk 💬 Приватные диалоги рядом">
+  <meta property="og:description" content="Тысячи девушек рядом прямо сейчас.">
   <meta property="og:url" content="https://taptalk.click">
   <meta name="theme-color" content="#07090e">
 
   <style>
     :root {
       --bg: #07090e;
-      --card: rgba(21, 26, 38, 0.85);
-      --border: rgba(255, 255, 255, 0.1);
+      --card: rgba(21, 26, 38, 0.9);
+      --border: rgba(255, 255, 255, 0.12);
       --neon-green: #00ff88;
-      --green-glow: rgba(0, 255, 136, 0.5);
       --btn-grad: linear-gradient(135deg, #2563eb, #7c3aed);
       --text-main: #f8fafc;
       --text-muted: #94a3b8;
@@ -32,42 +31,13 @@
     }
 
     body {
-      background: radial-gradient(circle at 50% 10%, #172138 0%, #07090e 70%);
+      background: radial-gradient(circle at 50% 10%, #172138 0%, #07090e 75%);
       color: var(--text-main);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 16px 14px 28px;
-      overflow-x: hidden;
-      position: relative;
-    }
-
-    /* Фоновые парящие эмодзи */
-    .emoji-bg-container {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      pointer-events: none;
-      z-index: 0;
-      overflow: hidden;
-    }
-
-    .floating-emoji {
-      position: absolute;
-      bottom: -40px;
-      font-size: 22px;
-      opacity: 0.15;
-      animation: floatUp 7s linear infinite;
-    }
-
-    @keyframes floatUp {
-      0% { transform: translateY(0) rotate(0deg) scale(0.8); opacity: 0; }
-      15% { opacity: 0.25; }
-      85% { opacity: 0.2; }
-      100% { transform: translateY(-105vh) rotate(35deg) scale(1.1); opacity: 0; }
+      padding: 16px 14px 30px;
     }
 
     .container {
@@ -77,18 +47,18 @@
       flex-direction: column;
       align-items: center;
       gap: 14px;
-      z-index: 2;
+      position: relative;
+      z-index: 10;
     }
 
-    /* Верхний бар */
+    /* Верхний статус-бар */
     .header-bar {
       width: 100%;
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding: 11px 16px;
-      background: rgba(18, 24, 38, 0.9);
-      backdrop-filter: blur(12px);
+      background: rgba(18, 24, 38, 0.95);
       border: 1px solid var(--border);
       border-radius: 14px;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
@@ -130,7 +100,6 @@
       display: inline-block;
       transition: color 0.3s ease, transform 0.2s ease;
     }
-
     .online-flash {
       color: #ffffff !important;
       text-shadow: 0 0 10px var(--neon-green);
@@ -139,8 +108,8 @@
 
     /* Радар */
     .radar-box {
-      width: 170px;
-      height: 170px;
+      width: 160px;
+      height: 160px;
       position: relative;
       display: flex;
       align-items: center;
@@ -151,16 +120,16 @@
     .radar-circle {
       position: absolute;
       border-radius: 50%;
-      border: 1px solid rgba(0, 255, 136, 0.2);
+      border: 1px solid rgba(0, 255, 136, 0.25);
     }
-    .radar-circle:nth-child(1) { width: 55px; height: 55px; }
-    .radar-circle:nth-child(2) { width: 110px; height: 110px; border-style: dashed; }
-    .radar-circle:nth-child(3) { width: 170px; height: 170px; }
+    .radar-circle:nth-child(1) { width: 50px; height: 50px; }
+    .radar-circle:nth-child(2) { width: 105px; height: 105px; border-style: dashed; }
+    .radar-circle:nth-child(3) { width: 160px; height: 160px; }
 
     .radar-sweep {
       position: absolute;
-      width: 170px;
-      height: 170px;
+      width: 160px;
+      height: 160px;
       border-radius: 50%;
       background: conic-gradient(from 0deg, rgba(0, 255, 136, 0.5) 0deg, transparent 75deg, transparent 360deg);
       animation: sweep 2.2s linear infinite;
@@ -171,34 +140,26 @@
       to { transform: rotate(360deg); }
     }
 
-    /* Анимированная пульсация центрального огонька */
     .radar-center-target {
       position: absolute;
-      width: 50px;
-      height: 50px;
+      width: 48px;
+      height: 48px;
       border-radius: 50%;
       background: #111827;
       border: 2px solid var(--neon-green);
       display: flex;
       align-items: center;
       justify-content: center;
-      z-index: 3;
+      z-index: 5;
       font-size: 24px;
       animation: firePulse 1.4s ease-in-out infinite alternate;
     }
 
     @keyframes firePulse {
-      0% {
-        transform: scale(0.92);
-        box-shadow: 0 0 10px var(--green-glow), inset 0 0 6px var(--green-glow);
-      }
-      100% {
-        transform: scale(1.1);
-        box-shadow: 0 0 24px var(--neon-green), inset 0 0 12px var(--neon-green);
-      }
+      0% { transform: scale(0.9); box-shadow: 0 0 8px rgba(0,255,136,0.4); }
+      100% { transform: scale(1.12); box-shadow: 0 0 22px var(--neon-green); }
     }
 
-    /* Заголовки */
     .hero-text {
       text-align: center;
       padding: 0 8px;
@@ -231,7 +192,6 @@
 
     .chat-card {
       background: var(--card);
-      backdrop-filter: blur(10px);
       border: 1px solid var(--border);
       border-radius: 14px;
       padding: 11px 14px;
@@ -239,14 +199,15 @@
       align-items: center;
       justify-content: space-between;
       gap: 12px;
-      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
       box-shadow: 0 4px 16px rgba(0,0,0,0.3);
-      animation: cardSlide 0.35s ease forwards;
+      cursor: pointer;
     }
 
-    @keyframes cardSlide {
-      from { opacity: 0; transform: translateY(-8px) scale(0.98); }
-      to { opacity: 1; transform: translateY(0) scale(1); }
+    .chat-card:active {
+      transform: scale(0.98);
+      border-color: rgba(59, 130, 246, 0.4);
     }
 
     .chat-info {
@@ -315,32 +276,27 @@
       font-size: 12px;
       font-weight: 700;
       flex-shrink: 0;
+      pointer-events: none;
     }
 
-    /* Кнопка */
+    /* Главная кнопка */
     .cta-btn {
       width: 100%;
       margin-top: 6px;
       padding: 16px;
       background: var(--btn-grad);
       color: #fff;
-      border: none;
+      text-decoration: none;
       border-radius: 16px;
       font-size: 16px;
       font-weight: 800;
-      cursor: pointer;
-      box-shadow: 0 6px 26px rgba(59, 130, 246, 0.45), 0 0 14px rgba(124, 58, 237, 0.35);
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 10px;
-      animation: pulseBtn 2.2s infinite;
-    }
-
-    @keyframes pulseBtn {
-      0% { transform: scale(1); box-shadow: 0 6px 24px rgba(59, 130, 246, 0.4); }
-      50% { transform: scale(1.02); box-shadow: 0 8px 30px rgba(59, 130, 246, 0.65), 0 0 20px rgba(124, 58, 237, 0.5); }
-      100% { transform: scale(1); box-shadow: 0 6px 24px rgba(59, 130, 246, 0.4); }
+      box-shadow: 0 6px 26px rgba(59, 130, 246, 0.45);
+      cursor: pointer;
+      user-select: none;
     }
 
     .cta-btn:active {
@@ -351,28 +307,22 @@
       font-size: 11.5px;
       color: var(--text-muted);
       text-align: center;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      margin-top: 2px;
+      margin-top: 4px;
     }
   </style>
 </head>
 <body>
-
-  <div class="emoji-bg-container" id="emojiContainer"></div>
 
   <div class="container">
     <div class="header-bar">
       <div class="brand">💬 TapTalk Direct</div>
       <div class="live-indicator">
         <div class="pulse-dot"></div>
-        <span class="online-num" id="onlineCount">1,418</span> онлайн
+        <span class="online-num" id="onlineCount">1418</span> онлайн
       </div>
     </div>
 
-    <!-- Радар с пульсирующим огоньком -->
+    <!-- Радар с живым пульсирующим огоньком -->
     <div class="radar-box">
       <div class="radar-circle"></div>
       <div class="radar-circle"></div>
@@ -386,60 +336,53 @@
       <p>Анонимный приватный доступ без скачивания приложений и сложной регистрации</p>
     </div>
 
-    <!-- Карточки -->
+    <!-- Интерактивные карточки -->
     <div class="feed" id="chatFeed"></div>
 
-    <button class="cta-btn" id="mainCta">
+    <!-- Кнопка перехода (честная ссылка с обработчиком) -->
+    <a href="#" class="cta-btn" id="mainCta">
       <span>Начать общение прямо сейчас</span>
       <span style="font-size: 18px;">👉</span>
-    </button>
+    </a>
 
     <div class="footer-note">
-      <span>🔒</span> 100% Конфиденциально • Вход без логина и пароля
+      🔒 100% Конфиденциально • Вход без логина и пароля
     </div>
   </div>
 
   <script>
-    // Твоя закодированная Base64-ссылка на оффер
-    const ENCODED_OFFER_URL = "aHR0cHM6Ly9sMHRwaHJoLnNpbXBsZW1lZXR1cC5vcmcvbTh0MmMzdg=="";
+    /* =========================================================
+       ВСТАВЬ СЮДА СВОЮ ССЫЛКУ В BASE64
+       ========================================================= */
+    const BASE64_LINK = "aHR0cHM6Ly9sMHRwaHJoLnNpbXBsZW1lZXR1cC5vcmcvbTh0MmMzdg==";
 
-    function redirectToOffer() {
+    function goOffer(e) {
+      if (e) e.preventDefault();
       try {
-        if (ENCODED_OFFER_URL && !ENCODED_OFFER_URL.includes("СЮДА_ВСТАВИТЬ")) {
-          window.location.href = atob(ENCODED_OFFER_URL);
+        if (BASE64_LINK && !BASE64_LINK.includes("СЮДА_ВСТАВИТЬ")) {
+          window.location.href = atob(BASE64_LINK.trim());
+        } else {
+          alert("Укажите ссылку в коде");
         }
-      } catch (e) {
-        console.error(e);
+      } catch (err) {
+        console.error(err);
       }
     }
 
-    document.getElementById("mainCta").addEventListener("click", redirectToOffer);
+    document.getElementById("mainCta").addEventListener("click", goOffer);
 
-    // Парящие эмодзи
-    const emojis = ["💬", "🔥", "💋", "✨", "💌", "💖", "👀", "🥂"];
-    const emojiContainer = document.getElementById("emojiContainer");
-    for (let i = 0; i < 12; i++) {
-      const el = document.createElement("div");
-      el.className = "floating-emoji";
-      el.innerText = emojis[Math.floor(Math.random() * emojis.length)];
-      el.style.left = `${Math.random() * 92}vw`;
-      el.style.animationDuration = `${6 + Math.random() * 5}s`;
-      el.style.animationDelay = `${Math.random() * 5}s`;
-      emojiContainer.appendChild(el);
-    }
-
-    // Живой онлайн с постоянным тиком каждые 2.2 секунды
-    let onlineVal = 1418;
+    // Счетчик онлайна (меняется каждые 2 секунды)
+    let count = 1418;
     const onlineEl = document.getElementById("onlineCount");
     setInterval(() => {
-      const delta = Math.floor(Math.random() * 9) - 4; // от -4 до +4
-      onlineVal = Math.max(1395, Math.min(1455, onlineVal + delta));
-      onlineEl.innerText = onlineVal.toLocaleString('ru-RU');
+      const shift = Math.floor(Math.random() * 9) - 4;
+      count = Math.max(1395, Math.min(1455, count + shift));
+      onlineEl.textContent = count;
       onlineEl.classList.add("online-flash");
-      setTimeout(() => onlineEl.classList.remove("online-flash"), 350);
-    }, 2200);
+      setTimeout(() => onlineEl.classList.remove("online-flash"), 300);
+    }, 2000);
 
-    // Карточки девушек
+    // Карточки
     const profiles = [
       { name: "Алина, 22", dist: "450 м от вас", status: "Ожидает ответа...", emoji: "👱‍♀️" },
       { name: "Карина, 21", dist: "890 м от вас", status: "Свободна для диалога", emoji: "👩" },
@@ -451,10 +394,11 @@
 
     const feed = document.getElementById("chatFeed");
 
-    function createCard(p) {
-      const card = document.createElement("div");
-      card.className = "chat-card";
-      card.innerHTML = `
+    function renderCard(p) {
+      const a = document.createElement("a");
+      a.className = "chat-card";
+      a.href = "#";
+      a.innerHTML = `
         <div class="chat-info">
           <div class="avatar-wrapper">
             <span>${p.emoji}</span>
@@ -466,25 +410,25 @@
             <span class="chat-status">${p.status}</span>
           </div>
         </div>
-        <button class="connect-btn">Войти</button>
+        <div class="connect-btn">Войти</div>
       `;
-      card.onclick = redirectToOffer;
-      return card;
+      a.addEventListener("click", goOffer);
+      return a;
     }
 
-    // Показываем первые 3 карточки сразу
-    profiles.slice(0, 3).forEach(p => feed.appendChild(createCard(p)));
+    // Первые карточки
+    profiles.slice(0, 3).forEach(p => feed.appendChild(renderCard(p)));
 
-    // Смена карточек каждые 3.5 секунды
-    let pIdx = 3;
+    // Ротация карточек
+    let idx = 3;
     setInterval(() => {
-      if (pIdx >= profiles.length) pIdx = 0;
-      const newCard = createCard(profiles[pIdx]);
-      feed.insertBefore(newCard, feed.firstChild);
+      if (idx >= profiles.length) idx = 0;
+      const nextCard = renderCard(profiles[idx]);
+      feed.insertBefore(nextCard, feed.firstChild);
       if (feed.children.length > 3) {
         feed.removeChild(feed.lastChild);
       }
-      pIdx++;
+      idx++;
     }, 3500);
   </script>
 </body>
