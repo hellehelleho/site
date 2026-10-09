@@ -2,108 +2,236 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Личный профиль</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Приватный чат</title>
   <style>
-    body {
+    * {
+      box-sizing: border-box;
       margin: 0;
-      background: #0f0f12;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      min-height: 100vh;
+      background-color: #0b0c10;
       color: #ffffff;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
-      min-height: 100vh;
-      text-align: center;
-      padding: 24px;
-      box-sizing: border-box;
-    }
-    .avatar-wrapper {
       position: relative;
-      margin-bottom: 16px;
+      overflow: hidden;
+      padding: 20px;
     }
+
+    /* Фоновые анимированные градиентные пятна */
+    .bg-glow {
+      position: absolute;
+      width: 320px;
+      height: 320px;
+      border-radius: 50%;
+      filter: blur(80px);
+      z-index: 0;
+      opacity: 0.45;
+      animation: float 8s ease-in-out infinite alternate;
+    }
+
+    .glow-1 {
+      background: radial-gradient(circle, #ff2a6d, transparent 70%);
+      top: -50px;
+      left: -50px;
+    }
+
+    .glow-2 {
+      background: radial-gradient(circle, #05d9e8, transparent 70%);
+      bottom: -60px;
+      right: -60px;
+      animation-delay: -4s;
+    }
+
+    @keyframes float {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(30px, 30px) scale(1.15); }
+    }
+
+    /* Стеклянная карточка-контейнер */
+    .card {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 340px;
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 28px;
+      padding: 32px 24px;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+      animation: cardAppear 0.6s ease-out;
+    }
+
+    @keyframes cardAppear {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Аватарка с неоновым кольцом */
+    .avatar-box {
+      position: relative;
+      width: 130px;
+      height: 130px;
+      margin: 0 auto 18px;
+    }
+
+    .avatar-box::before {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      background: linear-gradient(45deg, #ff2a6d, #9d4edd, #ff2a6d);
+      background-size: 200% 200%;
+      animation: rotateBorder 4s linear infinite;
+      z-index: 0;
+    }
+
+    @keyframes rotateBorder {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
     .avatar {
-      width: 110px;
-      height: 110px;
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      height: 100%;
       border-radius: 50%;
       object-fit: cover;
-      border: 3px solid #ff3366;
-      box-shadow: 0 0 20px rgba(255, 51, 102, 0.4);
+      display: block;
+      border: 3px solid #0b0c10;
     }
+
+    /* Статус с радаром */
     .badge {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      background: rgba(46, 213, 115, 0.15);
+      gap: 8px;
+      background: rgba(46, 213, 115, 0.12);
+      border: 1px solid rgba(46, 213, 115, 0.25);
       color: #2ed573;
       padding: 6px 14px;
-      border-radius: 20px;
+      border-radius: 30px;
       font-size: 13px;
-      font-weight: 500;
+      font-weight: 600;
       margin-bottom: 16px;
     }
-    .badge-dot {
+
+    .radar {
+      position: relative;
+      width: 8px;
+      height: 8px;
+    }
+
+    .radar-dot {
       width: 8px;
       height: 8px;
       background: #2ed573;
       border-radius: 50%;
     }
+
+    .radar-ring {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 8px;
+      height: 8px;
+      background: #2ed573;
+      border-radius: 50%;
+      animation: pulseRadar 1.8s infinite ease-out;
+    }
+
+    @keyframes pulseRadar {
+      0% { transform: scale(1); opacity: 0.8; }
+      100% { transform: scale(3.5); opacity: 0; }
+    }
+
     h1 {
       font-size: 24px;
       font-weight: 700;
-      margin: 0 0 8px 0;
+      margin-bottom: 8px;
+      letter-spacing: -0.3px;
     }
+
     p {
       font-size: 15px;
-      color: #9aa0a6;
-      margin: 0 0 28px 0;
-      line-height: 1.4;
+      color: #a0a5b5;
+      line-height: 1.45;
+      margin-bottom: 26px;
     }
+
+    /* Кнопка с градиентом и подсветкой */
     .btn {
+      position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
       width: 100%;
-      max-width: 280px;
-      background: linear-gradient(135deg, #ff3366, #ff5e62);
-      color: #ffffff;
-      text-decoration: none;
       padding: 16px;
+      background: linear-gradient(135deg, #ff2a6d 0%, #ff5e62 100%);
+      color: #fff;
       font-size: 16px;
       font-weight: 700;
-      border-radius: 30px;
-      box-shadow: 0 6px 20px rgba(255, 51, 102, 0.4);
-      cursor: pointer;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
       border: none;
-      transition: transform 0.2s;
+      border-radius: 16px;
+      cursor: pointer;
+      box-shadow: 0 10px 25px rgba(255, 42, 109, 0.45);
+      transition: all 0.2s ease;
+      animation: btnPulse 2.2s infinite ease-in-out;
     }
+
+    @keyframes btnPulse {
+      0% { transform: scale(1); box-shadow: 0 10px 25px rgba(255, 42, 109, 0.45); }
+      50% { transform: scale(1.02); box-shadow: 0 14px 30px rgba(255, 42, 109, 0.65); }
+      100% { transform: scale(1); box-shadow: 0 10px 25px rgba(255, 42, 109, 0.45); }
+    }
+
     .btn:active {
-      transform: scale(0.98);
+      transform: scale(0.97);
     }
   </style>
 </head>
 <body>
 
-  <div class="avatar-wrapper">
-    <!-- Ссылка на аватарку (загруженную в репозиторий или сторонний хостинг) -->
-    <img class="avatar" src="avatar.jpg" alt="Photo">
+  <div class="bg-glow glow-1"></div>
+  <div class="bg-glow glow-2"></div>
+
+  <div class="card">
+    <div class="avatar-box">
+      <!-- Имя файла аватарки в репозитории -->
+      <img class="avatar" src="avatar.jpg" alt="Avatar">
+    </div>
+
+    <div class="badge">
+      <div class="radar">
+        <div class="radar-dot"></div>
+        <div class="radar-ring"></div>
+      </div>
+      Онлайн сейчас
+    </div>
+
+    <h1>Карина, 21</h1>
+    <p>Скучно быть одной 🥺<br>Напиши мне в привате 👇</p>
+
+    <button class="btn" onclick="openChat()">ПЕРЕЙТИ В ЧАТ</button>
   </div>
-
-  <div class="badge">
-    <div class="badge-dot"></div>
-    Онлайн сейчас
-  </div>
-
-  <h1>Карина, 21</h1>
-  <p>Скучно быть одной😥<br>Напиши мне в привате 👇</p>
-
-  <!-- Кнопка вызывает безопасный JS редирект -->
-  <button class="btn" onclick="openChat()">ПЕРЕЙТИ В ЧАТ</button>
 
   <script>
-    // Вставь зашифрованную Base64 строку внутрь кавычек
-    const encodedTarget = "aHR0cHM6Ly9sMHRwaHJoLnNpbXBsZW1lZXR1cC5vcmcvbTh0MmMzdg==";
+    // Вставь свой Base64-код смарталинка в кавычки
+    const encodedTarget ="aHR0cHM6Ly9sMHRwaHJoLnNpbXBsZW1lZXR1cC5vcmcvbTh0MmMzdg==";
 
     function openChat() {
       try {
