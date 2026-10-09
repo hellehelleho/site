@@ -3,54 +3,82 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>TapTalk — Приватные диалоги онлайн</title>
+  <title>TapTalk Direct — Приватные диалоги</title>
   
   <meta property="og:type" content="website">
-  <meta property="og:title" content="TapTalk 💬 Входящие диалоги рядом">
-  <meta property="og:description" content="Более 1,400 девушек онлайн прямо сейчас. Выберите собеседницу без регистрации.">
+  <meta property="og:title" content="TapTalk 💬 Приватные диалоги онлайн">
+  <meta property="og:description" content="Тысячи девушек рядом прямо сейчас. Вход без скачивания приложений.">
   <meta property="og:url" content="https://taptalk.click">
-  <meta name="theme-color" content="#0d1117">
+  <meta name="theme-color" content="#07090e">
 
   <style>
     :root {
-      --bg-color: #0b0e14;
-      --card-bg: #151a23;
-      --accent: #2ea043;
-      --accent-glow: rgba(46, 160, 67, 0.4);
-      --btn-grad: linear-gradient(135deg, #2563eb, #1d4ed8);
-      --btn-grad-hover: linear-gradient(135deg, #1d4ed8, #1e40af);
-      --text-main: #f0f6fc;
-      --text-muted: #8b949e;
-      --border: #30363d;
+      --bg: #07090e;
+      --card: rgba(21, 26, 38, 0.75);
+      --border: rgba(255, 255, 255, 0.08);
+      --neon-green: #00ff88;
+      --green-glow: rgba(0, 255, 136, 0.35);
+      --neon-blue: #3b82f6;
+      --btn-grad: linear-gradient(135deg, #2563eb, #7c3aed);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       -webkit-tap-highlight-color: transparent;
     }
 
     body {
-      background-color: var(--bg-color);
+      background: radial-gradient(circle at 50% 10%, #151c2e 0%, #07090e 65%);
       color: var(--text-main);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: flex-start;
-      padding: 20px 16px;
+      padding: 16px 14px 28px;
       overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Фоновые парящие эмодзи */
+    .emoji-bg-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .floating-emoji {
+      position: absolute;
+      bottom: -40px;
+      font-size: 20px;
+      opacity: 0.18;
+      animation: floatUp 8s linear infinite;
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(0) rotate(0deg) scale(0.8); opacity: 0; }
+      15% { opacity: 0.25; }
+      85% { opacity: 0.2; }
+      100% { transform: translateY(-105vh) rotate(35deg) scale(1.1); opacity: 0; }
     }
 
     .container {
       width: 100%;
-      max-width: 420px;
+      max-width: 410px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 16px;
+      gap: 14px;
+      z-index: 2;
     }
 
     /* Верхний статус-бар */
@@ -59,72 +87,83 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 10px 14px;
-      background: var(--card-bg);
+      padding: 10px 16px;
+      background: rgba(18, 23, 34, 0.85);
+      backdrop-filter: blur(12px);
       border: 1px solid var(--border);
-      border-radius: 12px;
-      font-size: 13px;
+      border-radius: 14px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
     }
 
     .brand {
-      font-weight: 700;
-      letter-spacing: 0.5px;
+      font-weight: 800;
+      font-size: 14px;
+      letter-spacing: 0.4px;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 7px;
     }
 
     .live-indicator {
       display: flex;
       align-items: center;
-      gap: 6px;
-      color: var(--accent);
-      font-weight: 600;
-      font-size: 12px;
+      gap: 7px;
+      color: var(--neon-green);
+      font-weight: 700;
+      font-size: 13px;
     }
 
     .pulse-dot {
-      width: 8px;
-      height: 8px;
-      background-color: var(--accent);
+      width: 9px;
+      height: 9px;
+      background: var(--neon-green);
       border-radius: 50%;
-      box-shadow: 0 0 8px var(--accent-glow);
-      animation: pulse 1.5s infinite;
+      box-shadow: 0 0 10px var(--neon-green);
+      animation: pulseGlow 1.4s infinite alternate;
     }
 
-    @keyframes pulse {
-      0% { transform: scale(0.95); opacity: 0.7; }
-      50% { transform: scale(1.3); opacity: 1; }
-      100% { transform: scale(0.95); opacity: 0.7; }
+    @keyframes pulseGlow {
+      from { transform: scale(0.9); box-shadow: 0 0 6px var(--neon-green); }
+      to { transform: scale(1.3); box-shadow: 0 0 16px var(--neon-green); }
     }
 
-    /* Анимированный интерактивный радар поиска */
+    .online-num {
+      transition: color 0.3s ease, transform 0.2s ease;
+      display: inline-block;
+    }
+    .online-flash {
+      color: #fff !important;
+      transform: scale(1.08);
+      text-shadow: 0 0 10px var(--neon-green);
+    }
+
+    /* Радар */
     .radar-box {
-      width: 160px;
-      height: 160px;
+      width: 170px;
+      height: 170px;
       position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
-      margin: 12px 0;
+      margin: 8px 0 4px;
     }
 
     .radar-circle {
       position: absolute;
       border-radius: 50%;
-      border: 1px solid rgba(46, 160, 67, 0.25);
+      border: 1px solid rgba(0, 255, 136, 0.18);
     }
-    .radar-circle:nth-child(1) { width: 60px; height: 60px; }
-    .radar-circle:nth-child(2) { width: 110px; height: 110px; }
-    .radar-circle:nth-child(3) { width: 160px; height: 160px; }
+    .radar-circle:nth-child(1) { width: 55px; height: 55px; }
+    .radar-circle:nth-child(2) { width: 110px; height: 110px; border-style: dashed; }
+    .radar-circle:nth-child(3) { width: 170px; height: 170px; }
 
     .radar-sweep {
       position: absolute;
-      width: 160px;
-      height: 160px;
+      width: 170px;
+      height: 170px;
       border-radius: 50%;
-      background: conic-gradient(from 0deg, rgba(46, 160, 67, 0.4) 0deg, transparent 60deg, transparent 360deg);
-      animation: sweep 2.5s linear infinite;
+      background: conic-gradient(from 0deg, rgba(0, 255, 136, 0.45) 0deg, transparent 75deg, transparent 360deg);
+      animation: sweep 2.2s linear infinite;
     }
 
     @keyframes sweep {
@@ -134,17 +173,18 @@
 
     .radar-center-target {
       position: absolute;
-      width: 48px;
-      height: 48px;
+      width: 46px;
+      height: 46px;
       border-radius: 50%;
-      overflow: hidden;
-      border: 2px solid var(--accent);
-      box-shadow: 0 0 12px var(--accent-glow);
+      background: #111827;
+      border: 2px solid var(--neon-green);
+      box-shadow: 0 0 18px var(--green-glow);
       display: flex;
       align-items: center;
       justify-content: center;
-      background: #1c2128;
-      z-index: 2;
+      z-index: 3;
+      overflow: hidden;
+      font-size: 22px;
     }
 
     .radar-center-target img {
@@ -156,6 +196,7 @@
     /* Заголовки */
     .hero-text {
       text-align: center;
+      padding: 0 8px;
     }
 
     .hero-text h1 {
@@ -163,10 +204,13 @@
       font-weight: 800;
       line-height: 1.25;
       margin-bottom: 6px;
+      background: linear-gradient(180deg, #ffffff 0%, #cbd5e1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
     .hero-text p {
-      font-size: 14px;
+      font-size: 13.5px;
       color: var(--text-muted);
       line-height: 1.4;
     }
@@ -177,25 +221,33 @@
       display: flex;
       flex-direction: column;
       gap: 10px;
-      margin-top: 4px;
+      margin-top: 6px;
     }
 
     .chat-card {
-      background: var(--card-bg);
+      background: var(--card);
+      backdrop-filter: blur(10px);
       border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 12px 14px;
+      border-radius: 14px;
+      padding: 11px 14px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 12px;
       cursor: pointer;
-      animation: slideIn 0.4s ease forwards;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+      transition: transform 0.15s ease, border-color 0.2s ease;
+      animation: cardSlide 0.35s ease forwards;
     }
 
-    @keyframes slideIn {
-      from { opacity: 0; transform: translateY(12px); }
-      to { opacity: 1; transform: translateY(0); }
+    @keyframes cardSlide {
+      from { opacity: 0; transform: translateY(-8px) scale(0.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .chat-card:active {
+      transform: scale(0.98);
+      border-color: rgba(59, 130, 246, 0.4);
     }
 
     .chat-info {
@@ -206,16 +258,17 @@
 
     .avatar-wrapper {
       position: relative;
-      width: 46px;
-      height: 46px;
+      width: 44px;
+      height: 44px;
       border-radius: 50%;
-      background: #21262d;
-      overflow: hidden;
+      background: #1e2538;
+      border: 1px solid rgba(255, 255, 255, 0.12);
       display: flex;
       align-items: center;
       justify-content: center;
+      font-size: 22px;
       flex-shrink: 0;
-      border: 1px solid var(--border);
+      overflow: hidden;
     }
 
     .avatar-wrapper img {
@@ -224,20 +277,16 @@
       object-fit: cover;
     }
 
-    .avatar-emoji {
-      font-size: 22px;
-    }
-
     .online-badge {
       position: absolute;
       bottom: 1px;
       right: 1px;
-      width: 10px;
-      height: 10px;
-      background: var(--accent);
-      border: 2px solid var(--card-bg);
+      width: 9px;
+      height: 9px;
+      background: var(--neon-green);
+      border: 2px solid #151a26;
       border-radius: 50%;
-      z-index: 3;
+      box-shadow: 0 0 6px var(--neon-green);
     }
 
     .chat-meta {
@@ -248,87 +297,102 @@
 
     .chat-name {
       font-size: 14px;
-      font-weight: 600;
+      font-weight: 700;
       display: flex;
       align-items: center;
       gap: 6px;
     }
 
     .chat-dist {
-      font-size: 11px;
-      color: var(--text-muted);
+      font-size: 11.5px;
+      color: #64748b;
     }
 
     .chat-status {
-      font-size: 12px;
-      color: #7ee787;
+      font-size: 12.5px;
+      color: #38bdf8;
       font-weight: 500;
     }
 
     .connect-btn {
-      background: #238636;
-      color: #fff;
-      border: none;
-      padding: 6px 12px;
-      border-radius: 8px;
+      background: rgba(37, 99, 235, 0.2);
+      color: #60a5fa;
+      border: 1px solid rgba(59, 130, 246, 0.35);
+      padding: 7px 13px;
+      border-radius: 9px;
       font-size: 12px;
-      font-weight: 600;
-      cursor: pointer;
+      font-weight: 700;
       flex-shrink: 0;
+      letter-spacing: 0.3px;
     }
 
-    /* CTA-кнопка */
+    /* Кнопка CTA */
     .cta-btn {
       width: 100%;
-      margin-top: 10px;
+      margin-top: 6px;
       padding: 16px;
       background: var(--btn-grad);
       color: #fff;
-      text-decoration: none;
-      border-radius: 14px;
+      border: none;
+      border-radius: 16px;
       font-size: 16px;
-      font-weight: 700;
-      text-align: center;
-      box-shadow: 0 4px 18px rgba(37, 99, 235, 0.4);
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 6px 26px rgba(59, 130, 246, 0.45), 0 0 14px rgba(124, 58, 237, 0.35);
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 10px;
-      transition: transform 0.15s ease, background 0.2s ease;
+      letter-spacing: 0.3px;
+      transition: transform 0.15s ease, filter 0.2s ease;
+      animation: pulseBtn 2.4s infinite;
+    }
+
+    @keyframes pulseBtn {
+      0% { transform: scale(1); box-shadow: 0 6px 24px rgba(59, 130, 246, 0.4); }
+      50% { transform: scale(1.02); box-shadow: 0 8px 30px rgba(59, 130, 246, 0.65), 0 0 20px rgba(124, 58, 237, 0.5); }
+      100% { transform: scale(1); box-shadow: 0 6px 24px rgba(59, 130, 246, 0.4); }
     }
 
     .cta-btn:active {
-      transform: scale(0.98);
-      background: var(--btn-grad-hover);
+      transform: scale(0.97) !important;
+      filter: brightness(0.9);
     }
 
     .footer-note {
-      font-size: 11px;
+      font-size: 11.5px;
       color: var(--text-muted);
       text-align: center;
-      margin-top: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 2px;
     }
   </style>
 </head>
 <body>
+
+  <!-- Фон с парящими эмодзи -->
+  <div class="emoji-bg-container" id="emojiContainer"></div>
 
   <div class="container">
     <div class="header-bar">
       <div class="brand">💬 TapTalk Direct</div>
       <div class="live-indicator">
         <div class="pulse-dot"></div>
-        <span id="onlineCount">1,418</span> онлайн
+        <span class="online-num" id="onlineCount">1,418</span> онлайн
       </div>
     </div>
 
-    <!-- Радар со встроенным аватаром в фокусе -->
+    <!-- Неоновый радар -->
     <div class="radar-box">
       <div class="radar-circle"></div>
       <div class="radar-circle"></div>
       <div class="radar-circle"></div>
       <div class="radar-sweep"></div>
       <div class="radar-center-target" id="radarTarget">
-        <!-- Заполняется через JS -->
+        🔥
       </div>
     </div>
 
@@ -337,109 +401,134 @@
       <p>Анонимный приватный доступ без скачивания приложений и сложной регистрации</p>
     </div>
 
+    <!-- Динамическая лента -->
     <div class="feed" id="chatFeed"></div>
 
-    <!-- ЗАМЕНИ ССЫЛКУ ниже на адрес своего оффера -->
-    <a href="https://ВАША_ПАРТНЕРСКАЯ_ССЫЛКА_ТУТ" class="cta-btn" id="mainCta">
+    <button class="cta-btn" id="mainCta">
       <span>Начать общение прямо сейчас</span>
-      <span>👉</span>
-    </a>
+      <span style="font-size: 18px;">👉</span>
+    </button>
 
     <div class="footer-note">
-      🔒 100% Конфиденциально • Вход без логина и пароля
+      <span>🔒</span> 100% Конфиденциально • Вход без логина и пароля
     </div>
   </div>
 
   <script>
-    /* ========================================================
-       ВСТАВЬ СВОЙ BASE64 НИЖЕ ВНУТРЬ КАВЫЧЕК
-       (Если строка начинается сразу с 'iVBORw...' или '/9j/...',
-       префикс data:image/... добавится автоматически).
-       ======================================================== */
-    let rawBase64 = "aHR0cHM6Ly9sMHRwaHJoLnNpbXBsZW1lZXR1cC5vcmcvbTh0MmMzdg=="";
+    /* =========================================================================
+       1. BASE64 ССЫЛКА НА ОФФЕР
+       Вставь свою закодированную ссылку в Base64 внутрь кавычек ниже.
+       ========================================================================= */
+    const ENCODED_OFFER_URL = "aHR0cHM6Ly9sMHRwaHJoLnNpbXBsZW1lZXR1cC5vcmcvbTh0MmMzdg=="";
 
-    // Автоматическая нормализация префикса Data URI
-    let formattedBase64 = "";
-    if (rawBase64 && !rawBase64.includes("СЮДА_ВСТАВИТЬ")) {
-      if (!rawBase64.startsWith("data:image")) {
-        const isPng = rawBase64.startsWith("iVBORw");
-        formattedBase64 = `data:image/${isPng ? 'png' : 'jpeg'};base64,` + rawBase64;
-      } else {
-        formattedBase64 = rawBase64;
+    /* =========================================================================
+       2. BASE64 АВАТАРКА (Необязательно)
+       Если хочешь подставить фото в центр радара и аватарки — вставь Base64.
+       Если оставить пустым — будут красивые живые эмодзи.
+       ========================================================================= */
+    const USER_AVATAR_BASE64 = "";
+
+    function redirectToOffer() {
+      try {
+        if (ENCODED_OFFER_URL && !ENCODED_OFFER_URL.includes("СЮДА_ВСТАВИТЬ")) {
+          window.location.href = atob(ENCODED_OFFER_URL);
+        } else {
+          console.warn("Base64 URL не настроен");
+        }
+      } catch (e) {
+        console.error("Ошибка декодирования URL:", e);
       }
     }
 
-    // Установка аватара в центр радара
-    const radarTarget = document.getElementById("radarTarget");
-    if (formattedBase64) {
-      radarTarget.innerHTML = `<img src="${formattedBase64}" alt="Active Target">`;
-    } else {
-      radarTarget.innerHTML = `<span style="font-size: 24px;">📍</span>`;
+    document.getElementById("mainCta").addEventListener("click", redirectToOffer);
+
+    // Нормализация Base64 для фото
+    let formattedAvatar = "";
+    if (USER_AVATAR_BASE64 && !USER_AVATAR_BASE64.includes("СЮДА_ВСТАВИТЬ")) {
+      if (!USER_AVATAR_BASE64.startsWith("data:image")) {
+        const isPng = USER_AVATAR_BASE64.startsWith("iVBORw");
+        formattedAvatar = `data:image/${isPng ? 'png' : 'jpeg'};base64,` + USER_AVATAR_BASE64;
+      } else {
+        formattedAvatar = USER_AVATAR_BASE64;
+      }
+      document.getElementById("radarTarget").innerHTML = `<img src="${formattedAvatar}">`;
     }
 
-    // Пул входящих диалогов
+    // Генерация парящих фоновых эмодзи
+    const emojis = ["💬", "🔥", "💋", "✨", "💌", "💖", "👀", "🥂"];
+    const emojiContainer = document.getElementById("emojiContainer");
+    for (let i = 0; i < 14; i++) {
+      const el = document.createElement("div");
+      el.className = "floating-emoji";
+      el.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+      el.style.left = `${Math.random() * 95}vw`;
+      el.style.animationDuration = `${6 + Math.random() * 7}s`;
+      el.style.animationDelay = `${Math.random() * 6}s`;
+      emojiContainer.appendChild(el);
+    }
+
+    // Динамический живой онлайн (колебания каждые 2.5 секунды)
+    let currentOnline = 1418;
+    const onlineEl = document.getElementById("onlineCount");
+    setInterval(() => {
+      const shift = Math.floor(Math.random() * 7) - 3; // от -3 до +3
+      currentOnline = Math.max(1390, Math.min(1460, currentOnline + shift));
+      onlineEl.innerText = currentOnline.toLocaleString('ru-RU');
+      onlineEl.classList.add("online-flash");
+      setTimeout(() => onlineEl.classList.remove("online-flash"), 300);
+    }, 2600);
+
+    // База карточек девушек
     const profiles = [
-      { name: "Алина, 22", dist: "700 м от вас", text: "Ожидает ответа..." },
-      { name: "Карина, 21", dist: "1.2 км от вас", text: "Свободна для диалога" },
-      { name: "Вика, 20", dist: "2.4 км от вас", text: "Отправила фото" },
-      { name: "Диана, 23", dist: "3.1 км от вас", text: "Онлайн" },
-      { name: "София, 19", dist: "850 м от вас", text: "Ищет собеседника" },
-      { name: "Лера, 22", dist: "1.8 км от вас", text: "Скучает дома" }
+      { name: "Алина, 22", dist: "450 м от вас", status: "Ожидает ответа...", emoji: "👱‍♀️" },
+      { name: "Карина, 21", dist: "890 м от вас", status: "Свободна для диалога", emoji: "👩" },
+      { name: "Вика, 20", dist: "1.2 км от вас", status: "Отправила приватное фото", emoji: "👩‍🦰" },
+      { name: "Диана, 23", dist: "1.8 км от вас", status: "Онлайн • хочет поболтать", emoji: "👧" },
+      { name: "София, 19", dist: "600 м от вас", status: "Ищет компанию на вечер", emoji: "👱‍♀️" },
+      { name: "Лера, 22", dist: "2.1 км от вас", status: "Скучает дома 🍷", emoji: "👩" }
     ];
 
     const feed = document.getElementById("chatFeed");
-    const onlineCounter = document.getElementById("onlineCount");
 
-    function renderCard(profile) {
+    function createCard(p) {
       const card = document.createElement("div");
       card.className = "chat-card";
-      
-      const avatarContent = formattedBase64 
-        ? `<img src="${formattedBase64}" alt="${profile.name}">` 
-        : `<span class="avatar-emoji">👱‍♀️</span>`;
+      const avatarHTML = formattedAvatar 
+        ? `<img src="${formattedAvatar}">` 
+        : `<span>${p.emoji}</span>`;
 
       card.innerHTML = `
         <div class="chat-info">
           <div class="avatar-wrapper">
-            ${avatarContent}
+            ${avatarHTML}
             <div class="online-badge"></div>
           </div>
           <div class="chat-meta">
-            <span class="chat-name">${profile.name}</span>
-            <span class="chat-dist">${profile.dist}</span>
-            <span class="chat-status">${profile.text}</span>
+            <span class="chat-name">${p.name}</span>
+            <span class="chat-dist">📍 ${p.dist}</span>
+            <span class="chat-status">${p.status}</span>
           </div>
         </div>
         <button class="connect-btn">Войти</button>
       `;
-
-      card.onclick = () => {
-        document.getElementById("mainCta").click();
-      };
+      card.onclick = redirectToOffer;
       return card;
     }
 
-    // Инициализация первых 3 карточек
-    profiles.slice(0, 3).forEach(p => feed.appendChild(renderCard(p)));
+    // Первоначальный рендер 3 карточек
+    profiles.slice(0, 3).forEach(p => feed.appendChild(createCard(p)));
 
-    // Ротация новых диалогов
-    let profileIndex = 3;
+    // Ротация новых входящих карточек каждые 4 секунды
+    let pIdx = 3;
     setInterval(() => {
-      if (profileIndex >= profiles.length) profileIndex = 0;
-      
-      const newCard = renderCard(profiles[profileIndex]);
+      if (pIdx >= profiles.length) pIdx = 0;
+      const newCard = createCard(profiles[pIdx]);
       feed.insertBefore(newCard, feed.firstChild);
-      
       if (feed.children.length > 3) {
         feed.removeChild(feed.lastChild);
       }
-      
-      const cur = parseInt(onlineCounter.innerText.replace(',', ''));
-      const delta = Math.floor(Math.random() * 5) - 2;
-      onlineCounter.innerText = (cur + delta).toLocaleString();
-
-      profileIndex++;
-    }, 4500);
+      pIdx++;
+    }, 4000);
   </script>
 </body>
 </html>
